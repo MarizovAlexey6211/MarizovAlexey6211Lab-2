@@ -3,7 +3,7 @@
 template<typename T, T falseValue, T trueValue>//1
 class BinaryImage {
 private:
-    class TT {
+    class TT {//Вспомогательный класс для работы с шаблонным типом данных
     public:
         T data;
         TT& operator=(bool value) {
@@ -21,20 +21,20 @@ private:
             else
                 data = falseValue;
             return *this;
-        }//Заполнение ячеек
+        }
         bool operator==(T value) {
             if (value == data)
                 return true;
             else
                 return false;
-        }//проверка есть ли значение
+        }//проверка есть ли значение(Вывод ячеейчный через прегруженный оператор вывода)(!)
     };
-    TT** data;
+    TT** data;//эта переменная связывает класс BinaryImage с классом TT, для взаимодействия с ячейками(с методами записи(2))
     int cols;
     int rows;
 public:
     BinaryImage() : data(nullptr), cols(0), rows(0) {}
-    BinaryImage(int cols, int rows) : cols(cols), rows(rows), data(new TT* [rows]) {
+    BinaryImage(int cols, int rows) : cols(cols), rows(rows), data(new TT* [rows]) {//выделяя память для матрицы, тип данных TT=> работа в классе TT
         for (int i = 0; i < rows; ++i)
             data[i] = new TT[cols];
         for (int i = 0; i < rows; ++i)
@@ -196,19 +196,6 @@ public:
     }
 
 
-    // bool PictureScreen() {
-    //     if (data == nullptr) {
-    //         cout << "Error";
-    //         return false;
-    //     }
-    //     for (int i = 0; i < rows; ++i) {
-    //         for (int j = 0; j < cols; ++j) {
-    //             cout << "[" << i << "]" << "[" << j << "] = ";
-    //             cin >> data[i][j];
-    //         }
-    //     }cout << endl << endl;
-    //     return true;
-    // }
     friend std::ostream& operator<<(std::ostream& out, const BinaryImage<T, falseValue, trueValue>& img)
     {
         for (int i = 0; i < img.rows; ++i) {
